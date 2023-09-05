@@ -52,7 +52,7 @@ const MenuItem = styled.div`
   margin-left: 25px;
 `;
 
-export const Navbar = () => {
+export const Navbarr = () => {
   return (
     <Container>
       <Wrapper>
@@ -70,7 +70,7 @@ export const Navbar = () => {
           <MenuItem>REGISTER</MenuItem>
           <MenuItem>SIGN IN</MenuItem>
           <MenuItem>
-            <Badge badgeContent={4} color="primary">
+            <Badge badgeContent={5} color="primary">
               <ShoppingCartOutlined />
             </Badge>
           </MenuItem>
