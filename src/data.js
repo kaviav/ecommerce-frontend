@@ -34,16 +34,19 @@ export const categories = [
     id: 1,
     img: "https://files.lbb.in/67019391_219156569063453_3087916301314462757_n_1566807993711.jpg",
     title: "SHIRT STYLE!",
+    category: "women",
   },
   {
     id: 2,
     img: "https://media1.popsugar-assets.com/files/thumbor/U6DF9ARJnnIErFLfNsxSw5cDqlE=/fit-in/1584x2376/filters:format_auto():upscale()/2021/01/08/822/n/1922564/6dd42f8b69322027_netimgQJmbja.jpg",
     title: "LOUNGEWEAR LOVE",
+    category: "coats",
   },
   {
     id: 3,
     img: "https://www.instyle.com/thmb/YHtNyxB380HvTfJtQj2WLwj5ULU=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/HM-1-2000-aaeb8ad5cbd744be84dd4bfdf43234ff.jpg",
     title: "LIGHT JACKETS",
+    category: "kurta",
   },
 ];
 

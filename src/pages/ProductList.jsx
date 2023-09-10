@@ -26,7 +26,7 @@ const FilterText = styled.span`
   font-size: 20px;
   font-weight: 600;
   margin-right: 20px;
-  ${mobile({ marginRight: "20px" })}
+  ${mobile({ marginRight: "0px" })}
 `;
 
 const Select = styled.select`
@@ -34,7 +34,9 @@ const Select = styled.select`
   margin-right: 20px;
   ${mobile({ margin: "10px 0px" })}
 `;
-const Option = styled.option``;
+const Option = styled.option`
+  padding: 9px;
+`;
 
 export const ProductList = () => {
   return (
