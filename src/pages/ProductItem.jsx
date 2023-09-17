@@ -5,6 +5,10 @@ import { Newsletter } from "../components/Newsletter";
 import { Footer } from "../components/Footer";
 import { Add, Remove } from "@mui/icons-material";
 import { mobile } from "../Responsive";
+import { publicRequest } from "../requestMethods";
+// import axios from "axios";
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 
 const Container = styled.div``;
 
@@ -116,47 +120,76 @@ const Button = styled.button`
 `;
 
 export const ProductItem = () => {
+  const location = useLocation();
+  const id = location.pathname.split("/")[2];
+  const [product, setProduct] = useState({});
+  const [quantity, setQuantity] = useState(1);
+  const [color, setColor] = useState("");
+  const [size, setSize] = useState("");
+
+  useEffect(() => {
+    const getProduct = async () => {
+      try {
+        const res = await publicRequest.get("/product/getone/" + id);
+        setProduct(res.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getProduct();
+  }, [id]);
+
+  const handleQuantity = (type) => {
+    if (type === "dec") {
+      quantity > 1 && setQuantity(quantity - 1);
+    } else {
+      setQuantity(quantity + 1);
+    }
+  };
+
   return (
     <Container>
       <Navbarr />
       <Announcements />
       <Wrapper>
         <ImgContainer>
-          <Image src="https://media1.popsugar-assets.com/files/thumbor/cAz5R5oNKwCVYngJnAooWAy4aVk=/fit-in/1040x1386/filters:format_auto():upscale()/2023/06/20/761/n/1922564/49945a106491deec661570.93752907_cn53222805.w" />
+          <Image src={product.image} />
         </ImgContainer>
 
         <InfoContainer>
-          <Title>Lorem ipsum dolor sit amet consectetur</Title>
-          <Desc>
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Mollitia
-            voluptatem, ipsam velit at labore obcaecati modi, ad, asperiores
-            autem non dicta illum error. Commodi ipsum praesentium cumque nobis
-            odio rerum.
-          </Desc>
-          <Price>$ 20</Price>
+          <Title>{product.title}</Title>
+          <Desc>{product.description}</Desc>
+          <Price>$ {product.price}</Price>
           <FilterContainer>
             <Filter>
               <FilterTitle>Color</FilterTitle>
-              <FilterColor color="black" />
+
+              {product.color?.map((c) => (
+                <FilterColor color={c} key={c} onClick={(c) => setColor(c)} />
+              ))}
+              {/* <FilterColor color="black" />
               <FilterColor color="darkblue" />
-              <FilterColor color="gray" />
+              <FilterColor color="gray" /> */}
             </Filter>
             <Filter>
               <FilterTitle>Size</FilterTitle>
-              <FilterSize>
-                <FilterSizeOption>XS</FilterSizeOption>
+              <FilterSize onChange={(e) => setSize(e.target.value)}>
+                {product.size?.map((s) => (
+                  <FilterSizeOption key={s}>{s}</FilterSizeOption>
+                ))}
+              </FilterSize>
+              {/* <FilterSizeOption>XS</FilterSizeOption>
                 <FilterSizeOption>S</FilterSizeOption>
                 <FilterSizeOption>M</FilterSizeOption>
                 <FilterSizeOption>L</FilterSizeOption>
-                <FilterSizeOption>XL</FilterSizeOption>
-              </FilterSize>
+                <FilterSizeOption>XL</FilterSizeOption> */}
             </Filter>
           </FilterContainer>
           <AddContainer>
             <AmountContainer>
-              <Remove />
-              <Amount>1</Amount>
-              <Add />
+              <Remove onClick={() => handleQuantity("dec")} />
+              <Amount>{quantity}</Amount>
+              <Add onClick={() => handleQuantity("inc")} />
             </AmountContainer>
             <Button>ADD TO CART</Button>
           </AddContainer>
