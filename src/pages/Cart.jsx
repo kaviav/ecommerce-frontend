@@ -4,6 +4,13 @@ import { Footer } from "../components/Footer";
 import { Navbarr } from "../components/Navbarr";
 import { Add, Remove } from "@mui/icons-material";
 import { mobile } from "../Responsive";
+import { useSelector } from "react-redux";
+import { userRequest } from "../requestMethods";
+import { loadStripe } from "@stripe/stripe-js";
+
+const KEY = process.env.REACT_APP_STRIPE_KEY;
+
+// console.log(process.env);
 
 const Container = styled.div``;
 
@@ -153,6 +160,31 @@ const Button = styled.button`
 `;
 
 export const Cart = () => {
+  const cart = useSelector((state) => state.cart);
+
+  const makePayment = async () => {
+    try {
+      const stripe = await loadStripe(KEY);
+
+      const response = await fetch("http://localhost:5000/checkout/payment", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ products: cart.products }),
+      });
+
+      if (!response.ok) throw new Error("Payment request failed");
+
+      const session = await response.json();
+      const result = stripe.redirectToCheckout({ sessionId: session.id });
+
+      if (result.error) throw new Error(result.error.message);
+    } catch (error) {
+      console.error("An error occurred:", error);
+    }
+  };
+
   return (
     <Container>
       <Navbarr />
@@ -169,33 +201,39 @@ export const Cart = () => {
         </Top>
         <Bottom>
           <Info>
-            <Product>
-              <ProductDetail>
-                <Image src="https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1614188818-TD1MTHU_SHOE_ANGLE_GLOBAL_MENS_TREE_DASHERS_THUNDER_b01b1013-cd8d-48e7-bed9-52db26515dc4.png?crop=1xw:1.00xh;center,top&resize=480%3A%2A" />
-                <Details>
-                  <ProductName>
-                    <b>Product:</b> London Heaven Shoes
-                  </ProductName>
-                  <ProductId>
-                    <b>Product Id:</b>33356789
-                  </ProductId>
-                  <ProductColor color="black" />
-                  <ProductSize>
-                    <b>Size:</b>39.4
-                  </ProductSize>
-                </Details>
-              </ProductDetail>
-              <PriceDetail>
-                <ProductAmountContainer>
-                  <Add />
-                  <ProductAmount>2</ProductAmount>
-                  <Remove />
-                </ProductAmountContainer>
-                <ProductPrice>$ 30</ProductPrice>
-              </PriceDetail>
-            </Product>
+            {cart.products.map((product) => (
+              <Product>
+                <ProductDetail>
+                  <Image src={product.image} />
+                  <Details>
+                    <ProductName>
+                      <b>Product:</b> {product.title}
+                    </ProductName>
+                    <ProductId>
+                      <b>Product Id:</b>
+                      {product._id}
+                    </ProductId>
+                    <ProductColor color={product.color} />
+                    <ProductSize>
+                      <b>Size:</b>
+                      {product.size}
+                    </ProductSize>
+                  </Details>
+                </ProductDetail>
+                <PriceDetail>
+                  <ProductAmountContainer>
+                    <Add />
+                    <ProductAmount>{product.quantity}</ProductAmount>
+                    <Remove />
+                  </ProductAmountContainer>
+                  <ProductPrice>
+                    $ {product.price * product.quantity}
+                  </ProductPrice>
+                </PriceDetail>
+              </Product>
+            ))}
             <Hr />
-            <Product>
+            {/* <Product>
               <ProductDetail>
                 <Image src="https://i.pinimg.com/originals/2d/af/f8/2daff8e0823e51dd752704a47d5b795c.png" />
                 <Details>
@@ -219,13 +257,13 @@ export const Cart = () => {
                 </ProductAmountContainer>
                 <ProductPrice>$ 20</ProductPrice>
               </PriceDetail>
-            </Product>
+            </Product> */}
           </Info>
           <Summary>
             <SummaryTitle>ORDER SUMMARY</SummaryTitle>
             <SummaryItem>
               <SummaryItemText>Subtotal</SummaryItemText>
-              <SummaryItemPrice>$ 80</SummaryItemPrice>
+              <SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
             </SummaryItem>
             <SummaryItem>
               <SummaryItemText>Estimated Shipping</SummaryItemText>
@@ -237,9 +275,12 @@ export const Cart = () => {
             </SummaryItem>
             <SummaryItem type="total">
               <SummaryItemText>Total</SummaryItemText>
-              <SummaryItemPrice>$ 80</SummaryItemPrice>
+              <SummaryItemPrice>$ {cart.total} </SummaryItemPrice>
             </SummaryItem>
-            <Button>CHECKOUT NOW</Button>
+
+            <Button type="button" onClick={makePayment}>
+              CHECKOUT NOW
+            </Button>
           </Summary>
         </Bottom>
       </Wrapper>
@@ -247,3 +288,34 @@ export const Cart = () => {
     </Container>
   );
 };
+
+// const makePayment = async () => {
+//   try {
+//     // Step 1: Load the Stripe.js library with your publishable key.
+//     const stripe = await loadStripe(KEY);
+
+//     // Step 2: Send a POST request to your server to create a payment session.
+//     const response = await fetch("http://localhost:5000/checkout/payment", {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//       body: JSON.stringify({ products: cart.products }),
+//     });
+
+//     // Step 3: Check if the payment request was successful (HTTP status 200).
+//     if (!response.ok) throw new Error("Payment request failed");
+
+//     // Step 4: Parse the response JSON to get the payment session ID.
+//     const session = await response.json();
+
+//     // Step 5: Redirect the user to the Stripe Checkout page.
+//     const result = stripe.redirectToCheckout({ sessionId: session.id });
+
+//     // Step 6: Check for any errors during the redirection process.
+//     if (result.error) throw new Error(result.error.message);
+//   } catch (error) {
+//     // Step 7: Handle errors gracefully.
+//     console.error("An error occurred:", error);
+//   }
+// };

@@ -1,22 +1,31 @@
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import { Home } from "./pages/Home";
 import { ProductList } from "./pages/ProductList";
 import { ProductItem } from "./pages/ProductItem";
 import { Cart } from "./pages/Cart";
 import { Login } from "./pages/Login";
 import { Register } from "./pages/Register";
+import { Success } from "./pages/Success";
+import Cancel from "./pages/Cancel";
+import { useSelector } from "react-redux";
 
 export const App = () => {
-  // const user = true;
+  const user = useSelector((state) => state.user.currentUser);
+
   return (
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/products/:cate" element={<ProductList />} />
       <Route path="/product/:id" element={<ProductItem />} />
       <Route path="/cart" element={<Cart />} />
-      <Route path="/login" element={<Login />} />
+      <Route path="/success" element={<Success />} />
+      <Route path="/cancel" element={<Cancel />} />
+      <Route path="/login" element={user ? <Navigate to="/" /> : <Login />} />
       {/* //user ? <Navigate to="/" /> */}
-      <Route path="/register" element={<Register />} />
+      <Route
+        path="/register"
+        element={user ? <Navigate to="/" /> : <Register />}
+      />
     </Routes>
   );
 };
