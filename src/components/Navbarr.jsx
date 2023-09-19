@@ -77,7 +77,7 @@ export const Navbarr = () => {
           </SearchContainer>
         </Left>
         <Center>
-          <Logo>SHOPEE.</Logo>
+          <Logo>WhalePy</Logo>
         </Center>
         <Right>
           <MenuItem>REGISTER</MenuItem>
