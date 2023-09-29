@@ -64,6 +64,7 @@ const MenuItem = styled.div`
 
 export const Navbarr = () => {
   const quantity = useSelector((state) => state.cart.quantity);
+  const currenUser = useSelector((state) => state.user.currenUser);
 
   // console.log(quantity)
   return (
@@ -80,8 +81,6 @@ export const Navbarr = () => {
           <Logo>WhalePy</Logo>
         </Center>
         <Right>
-          <MenuItem>REGISTER</MenuItem>
-          <MenuItem>SIGN IN</MenuItem>
           <Link to="/cart">
             <MenuItem>
               <Badge badgeContent={quantity} color="primary">

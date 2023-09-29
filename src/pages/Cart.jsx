@@ -162,6 +162,12 @@ const Button = styled.button`
 export const Cart = () => {
   const cart = useSelector((state) => state.cart);
 
+  // const createOrder= async()=>{
+  // const res = await userRequest("/order/add",{
+
+  // })
+  // }
+
   const makePayment = async () => {
     try {
       const stripe = await loadStripe(KEY);
@@ -173,10 +179,13 @@ export const Cart = () => {
         },
         body: JSON.stringify({ products: cart.products }),
       });
+      // console.log(response);
 
       if (!response.ok) throw new Error("Payment request failed");
-
+      // if(response.ok){ createOrder() }
       const session = await response.json();
+      // console.log(session)
+
       const result = stripe.redirectToCheckout({ sessionId: session.id });
 
       if (result.error) throw new Error(result.error.message);
