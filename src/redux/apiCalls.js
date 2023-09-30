@@ -10,3 +10,13 @@ export const login = async (dispatch, user) => {
     dispatch(loginFailure());
   }
 };
+
+export const signup = async (dispatch, user) => {
+  dispatch(loginStart());
+  try {
+    const response = await publicRequest.post("/auth/signup", user);
+    dispatch(loginSucces(response.data));
+  } catch (error) {
+    dispatch(loginFailure());
+  }
+};

@@ -3,6 +3,7 @@ import { mobile } from "../Responsive";
 import { login } from "../redux/apiCalls";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
   width: 100vw;
@@ -22,9 +23,11 @@ const Container = styled.div`
 const Wrapper = styled.div`
   width: 25%;
   padding: 20px;
-  background-color: white;
+  background-color: #f78ca2;
   ${mobile({ width: "75%" })}
 `;
+//bgcolor: white is good too
+
 const Title = styled.h1`
   font-size: 24px;
   font-weight: 300;
@@ -56,12 +59,20 @@ const Button = styled.button`
   }
 `;
 
-const Link = styled.a`
+const Anchor = styled.a`
   margin: 5px 0px;
   font-size: 12px;
   text-decoration: underline;
   cursor: pointer;
 `;
+const Register = styled.button`
+  border: none;
+  cursor: pointer;
+  background-color: transparent;
+  text-decoration: underline;
+  padding: 0;
+`;
+
 const Error = styled.span`
   color: red;
 `;
@@ -74,7 +85,7 @@ export const Login = () => {
 
   const handleClick = (e) => {
     e.preventDefault();
-    login(dispatch, { username, password });
+    login(dispatch, { username, password }); // login function is called from api calls
   };
   return (
     <Container>
@@ -90,13 +101,16 @@ export const Login = () => {
             type="password"
             onChange={(e) => setPassword(e.target.value)}
           />
+
           <Button onClick={handleClick} disabled={isFetching}>
             LOGIN
           </Button>
           {error && <Error>Something went wrong...</Error>}
 
-          <Link>DO NOT REMEMBER YOUR PASSWORD</Link>
-          <Link>CREATE A NEW ACCOUNT</Link>
+          <Anchor>DO NOT REMEMBER YOUR PASSWORD</Anchor>
+          <Link to="/register">
+            <Register>CREATE A NEW ACCOUNT</Register>
+          </Link>
         </Form>
       </Wrapper>
     </Container>

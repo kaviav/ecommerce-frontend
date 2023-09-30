@@ -161,13 +161,34 @@ const Button = styled.button`
 
 export const Cart = () => {
   const cart = useSelector((state) => state.cart);
+  const { products, total } = cart;
+  const { currentUser } = useSelector((state) => state.user);
+  const id = currentUser._id;
 
-  // const createOrder= async()=>{
-  // const res = await userRequest("/order/add",{
+  //send mail to the whalepy accnt
+  const sendMail = async () => {
+    try {
+      await userRequest.post("/mail/contact/" + id, {
+        products: products,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
-  // })
-  // }
+  //create a new order after payment
+  const createOrder = async () => {
+    const res = await userRequest.post("/order/add", {
+      userId: id,
+      products,
+      amount: total,
+    });
+    if (res.ok) {
+      sendMail();
+    }
+  };
 
+  //make payment using stripe
   const makePayment = async () => {
     try {
       const stripe = await loadStripe(KEY);
@@ -179,15 +200,14 @@ export const Cart = () => {
         },
         body: JSON.stringify({ products: cart.products }),
       });
-      // console.log(response);
 
       if (!response.ok) throw new Error("Payment request failed");
-      // if(response.ok){ createOrder() }
+      if (response.ok) {
+        createOrder();
+      }
       const session = await response.json();
-      // console.log(session)
 
       const result = stripe.redirectToCheckout({ sessionId: session.id });
-
       if (result.error) throw new Error(result.error.message);
     } catch (error) {
       console.error("An error occurred:", error);

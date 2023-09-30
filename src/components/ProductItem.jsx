@@ -73,7 +73,7 @@ export const ProductItem = ({ item }) => {
   return (
     <Container>
       <Circle />
-      <Image src={item.img} />
+      <Image src={item.image} />
       <Info>
         <Icon>
           <ShoppingCartOutlined />
