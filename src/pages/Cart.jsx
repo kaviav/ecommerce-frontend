@@ -7,6 +7,7 @@ import { mobile } from "../Responsive";
 import { useSelector } from "react-redux";
 import { userRequest } from "../requestMethods";
 import { loadStripe } from "@stripe/stripe-js";
+import { Link } from "react-router-dom";
 
 const KEY = process.env.REACT_APP_STRIPE_KEY;
 
@@ -223,8 +224,12 @@ export const Cart = () => {
         <Top>
           <TopButton>CONTINUE SHOPPING</TopButton>
           <TopTexts>
-            <TopText>Shopping bag(2)</TopText>
-            <TopText>Your wishlist(0)</TopText>
+            <Link to="/orders">
+              <TopText>Your Orders(2)</TopText>
+            </Link>
+            <Link to="/wishlist">
+              <TopText>Go to wishlist(0)</TopText>
+            </Link>
           </TopTexts>
           <TopButton type="filled">CHECKOUT NOW! </TopButton>
         </Top>

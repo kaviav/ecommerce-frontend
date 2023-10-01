@@ -1,10 +1,14 @@
 import {
+  Favorite,
   FavoriteBorderOutlined,
   SearchOutlined,
   ShoppingCartOutlined,
 } from "@mui/icons-material";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { styled } from "styled-components";
+import { userRequest } from "../requestMethods";
+import { useSelector } from "react-redux";
 
 const Info = styled.div`
   opacity: 0;
@@ -69,7 +73,31 @@ const Icon = styled.div`
   }
 `;
 
+const Button = styled.button`
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+`;
+
 export const ProductItem = ({ item }) => {
+  const { currentUser } = useSelector((state) => state.user);
+  const userId = currentUser?._id;
+
+  const [wishlisted, setWishListed] = useState(false);
+
+  const handleWishlist = () => {
+    setWishListed(!wishlisted);
+    addRemoveWhishlist();
+  };
+  const addRemoveWhishlist = async () => {
+    const res = await userRequest.post(`/product/wishlist/${userId}`, {
+      item,
+      wishlisted,
+    });
+    console.log(res.data);
+  };
+  console.log(wishlisted);
+
   return (
     <Container>
       <Circle />
@@ -84,7 +112,13 @@ export const ProductItem = ({ item }) => {
           </Link>
         </Icon>
         <Icon>
-          <FavoriteBorderOutlined />
+          <Button onClick={handleWishlist}>
+            {wishlisted ? (
+              <Favorite style={{ color: "red" }} />
+            ) : (
+              <FavoriteBorderOutlined />
+            )}
+          </Button>
         </Icon>
       </Info>
     </Container>
