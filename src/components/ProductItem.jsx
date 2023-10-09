@@ -4,12 +4,12 @@ import {
   SearchOutlined,
   ShoppingCartOutlined,
 } from "@mui/icons-material";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { styled } from "styled-components";
 import { userRequest } from "../requestMethods";
 import { useDispatch, useSelector } from "react-redux";
-import { toWishlist } from "../redux/userRedux";
+// import { toWishlist } from "../redux/userRedux";
 
 const Info = styled.div`
   opacity: 0;
@@ -83,7 +83,6 @@ const Button = styled.button`
 export const ProductItem = ({ item }) => {
   const { currentUser } = useSelector((state) => state.user);
   const userId = currentUser?._id;
-  const dispatch = useDispatch();
   const wishlistState = useSelector((state) => state.user.isInWishlist);
 
   const [isInWishlist, setIsInWishlist] = useState(!wishlistState);
@@ -109,7 +108,7 @@ export const ProductItem = ({ item }) => {
       item,
     });
     setIsInWishlist(!isInWishlist);
-    dispatch(toWishlist(isInWishlist, item));
+    // dispatch(toWishlist(isInWishlist, item));
   };
 
   const removeWishlist = async () => {
@@ -117,7 +116,7 @@ export const ProductItem = ({ item }) => {
       item,
     });
     setIsInWishlist(!isInWishlist);
-    dispatch(toWishlist(isInWishlist, item));
+    // dispatch(toWishlist(isInWishlist, item));
   };
 
   return (

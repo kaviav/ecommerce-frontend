@@ -103,11 +103,12 @@ export const Orders = () => {
 
   const { currentUser } = useSelector((state) => state.user);
   const id = currentUser._id;
-
+  const URL = "/order/userorders/" + id;
+  console.log(URL);
   useEffect(() => {
     const getOrders = async () => {
       try {
-        const res = await userRequest.get("/order/userorders/" + id);
+        const res = await userRequest.get(URL);
 
         setUserOrders(res.data);
         setIsLoading(false);
@@ -117,7 +118,7 @@ export const Orders = () => {
       }
     };
     getOrders();
-  }, [id]);
+  }, [URL, id]);
   // console.log(userOrders);
 
   return (

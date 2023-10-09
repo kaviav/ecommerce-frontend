@@ -2,8 +2,8 @@ import styled from "styled-components";
 import { Announcements } from "../components/Announcements";
 import { Newsletter } from "../components/Newsletter";
 import { Footer } from "../components/Footer";
-import { AddShoppingCart } from "@mui/icons-material";
-import { DeleteForever } from "@mui/icons-material";
+// import { AddShoppingCart } from "@mui/icons-material";
+// import { DeleteForever } from "@mui/icons-material";
 import { useSelector } from "react-redux";
 
 const Wrapper = styled.div`
@@ -75,43 +75,45 @@ const ProductPrice = styled.p`
   color: #333;
 `;
 
-const RemoveButton = styled(DeleteForever)`
-  color: #ff4d4d;
-  border: none;
-  padding: 12px 20px;
-  cursor: pointer;
-  font-size: 30px;
-  transition: color 0.3s ease;
+// const RemoveButton = styled(DeleteForever)`
+//   color: #ff4d4d;
+//   border: none;
+//   padding: 12px 20px;
+//   cursor: pointer;
+//   font-size: 30px;
+//   transition: color 0.3s ease;
 
-  &:hover {
-    color: orangered;
-  }
-`;
-const Buttons = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-left: 30px;
-`;
+//   &:hover {
+//     color: orangered;
+//   }
+// `;
+// const Buttons = styled.div`
+//   display: flex;
+//   align-items: center;
+//   justify-content: space-between;
+//   margin-left: 30px;
+// `;
 
-const AddToCartButton = styled(AddShoppingCart)`
-  color: #339933;
-  border: none;
-  padding: 12px 20px;
-  cursor: pointer;
-  font-size: 30px;
-  transition: color 0.3s ease;
+// const AddToCartButton = styled(AddShoppingCart)`
+//   color: #339933;
+//   border: none;
+//   padding: 12px 20px;
+//   cursor: pointer;
+//   font-size: 30px;
+//   transition: color 0.3s ease;
 
-  &:hover {
-    color: #339933;
-  }
-`;
+//   &:hover {
+//     color: #339933;
+//   }
+// `;
 
 const ImgContainer = styled.div``;
 
 export const Wishlist = () => {
-  const wishlistedItems = useSelector((state) => state.user.wishlist);
-  console.log(wishlistedItems);
+  const { currentUser } = useSelector((state) => state.user);
+  const wishlist = currentUser.wishlist;
+  console.log(wishlist);
+
   return (
     <>
       <Announcements />
@@ -121,34 +123,21 @@ export const Wishlist = () => {
           <h1>My Wishlist</h1>
         </Header>
         <Container>
-          <WishlistItem>
-            <ProductImage src="product1.jpg" alt="Product 1" />
-            <ProductDetails>
-              <ProductTitle>Product Name 1</ProductTitle>
-              <ProductDescription>
-                Product description goes here.
-              </ProductDescription>
-            </ProductDetails>
-            <ProductPrice>$49.99</ProductPrice>
-            <Buttons>
-              <AddToCartButton>Add to Cart</AddToCartButton>
-              <RemoveButton>Remove</RemoveButton>
-            </Buttons>
-          </WishlistItem>
-          <WishlistItem>
-            <ProductImage src="product2.jpg" alt="Product 2" />
-            <ProductDetails>
-              <ProductTitle>Product Name 2</ProductTitle>
-              <ProductDescription>
-                Product description goes here.
-              </ProductDescription>
-            </ProductDetails>
-            <ProductPrice>$29.99</ProductPrice>
-            <Buttons>
-              <AddToCartButton>Add to Cart</AddToCartButton>
-              <RemoveButton>Remove</RemoveButton>
-            </Buttons>
-          </WishlistItem>
+          {wishlist.map((item, i) => (
+            <WishlistItem key={i}>
+              <ProductImage src={item.image} alt="" />
+
+              <ProductDetails>
+                <ProductTitle>{item.title}</ProductTitle>
+                <ProductDescription>{item.description}</ProductDescription>
+              </ProductDetails>
+              <ProductPrice>$ {item.price}</ProductPrice>
+              {/* <Buttons>
+                <AddToCartButton>Add to Cart</AddToCartButton>
+                <RemoveButton>Remove</RemoveButton>
+              </Buttons> */}
+            </WishlistItem>
+          ))}
         </Container>
         <ImgContainer>
           <img

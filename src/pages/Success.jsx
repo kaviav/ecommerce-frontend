@@ -111,7 +111,7 @@ export const Success = () => {
 
   const { currentUser } = useSelector((state) => state.user);
   const id = currentUser._id;
-
+  console.log(id);
   useEffect(() => {
     const getLatestOrder = async () => {
       const res = await userRequest.get("/order/latestorder/" + id);

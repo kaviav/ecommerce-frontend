@@ -28,23 +28,23 @@ const userSlice = createSlice({
     // toWishlist: (state, action) => {
     //   state.isInWishlist = action.payload; // Set isInWishlist based on the payload
     // },
-    toWishlist: (state, action) => {
-      const { item, isInWishlist } = action.payload;
+    // toWishlist: (state, action) => {
+    //   const { item, isInWishlist } = action.payload;
 
-      // Check if the item is already in the wishlist
-      const itemIndex = state.currentUser.wishlist.indexOf(item);
+    //   // Check if the item is already in the wishlist
+    //   const itemIndex = state.currentUser.wishlist.indexOf(item);
 
-      if (isInWishlist && itemIndex === -1) {
-        // Add the item to the wishlist if it's not already there
-        state.currentUser.wishlist.push(item);
-      } else if (!isInWishlist && itemIndex !== -1) {
-        // Remove the item from the wishlist if it's there and addToWishlist is false
-        state.currentUser.wishlist.splice(itemIndex, 1);
-      }
-    },
+    //   if (isInWishlist && itemIndex === -1) {
+    //     // Add the item to the wishlist if it's not already there
+    //     state.currentUser.wishlist.push(item);
+    //   } else if (!isInWishlist && itemIndex !== -1) {
+    //     // Remove the item from the wishlist if it's there and addToWishlist is false
+    //     state.currentUser.wishlist.splice(itemIndex, 1);
+    //   }
+    // },
   },
 });
 
-export const { loginStart, loginSucces, loginFailure, logout, toWishlist } =
+export const { loginStart, loginSucces, loginFailure, logout } =
   userSlice.actions;
 export default userSlice.reducer;

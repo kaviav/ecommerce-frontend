@@ -20,3 +20,10 @@ export const signup = async (dispatch, user) => {
     dispatch(loginFailure());
   }
 };
+
+//export const addWishlist=()=>{
+
+// }
+//export const removeWishlist=()=>{
+
+// }
