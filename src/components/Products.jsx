@@ -4,7 +4,6 @@ import { ProductItem } from "./ProductItem";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-
 const Container = styled.div`
   padding: 20px;
   display: flex;
@@ -22,8 +21,8 @@ export const Products = ({ cat, filters, sort }) => {
       try {
         const res = await axios.get(
           cat
-            ? `http://localhost:5000/product/getall?category=${cat}`
-            : `http://localhost:5000/product/getall`
+            ? `https://ecommerce-backend-j4t4.onrender.com/product/getall?category=${cat}`
+            : `https://ecommerce-backend-j4t4.onrender.com/product/getall`
         );
         console.log(res);
         setProducts(res.data);

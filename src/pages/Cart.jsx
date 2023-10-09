@@ -194,13 +194,16 @@ export const Cart = () => {
     try {
       const stripe = await loadStripe(KEY);
 
-      const response = await fetch("http://localhost:5000/checkout/payment", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ products: cart.products }),
-      });
+      const response = await fetch(
+        "https://ecommerce-backend-j4t4.onrender.com/checkout/payment",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ products: cart.products }),
+        }
+      );
 
       if (!response.ok) throw new Error("Payment request failed");
       if (response.ok) {
