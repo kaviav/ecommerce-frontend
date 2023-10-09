@@ -4,11 +4,12 @@ import {
   SearchOutlined,
   ShoppingCartOutlined,
 } from "@mui/icons-material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { styled } from "styled-components";
 import { userRequest } from "../requestMethods";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { toWishlist } from "../redux/userRedux";
 
 const Info = styled.div`
   opacity: 0;
@@ -82,21 +83,42 @@ const Button = styled.button`
 export const ProductItem = ({ item }) => {
   const { currentUser } = useSelector((state) => state.user);
   const userId = currentUser?._id;
+  const dispatch = useDispatch();
+  const wishlistState = useSelector((state) => state.user.isInWishlist);
 
-  const [wishlisted, setWishListed] = useState(false);
+  const [isInWishlist, setIsInWishlist] = useState(!wishlistState);
 
-  const handleWishlist = () => {
-    setWishListed(!wishlisted);
-    addRemoveWhishlist();
+  // useEffect(() => {
+  //   const checkIsInWishlist = () => {
+  //     const isItemInWishlist = currentUser.wishlist.includes(item);
+  //     isItemInWishlist && setIsInWishlist(isItemInWishlist);
+  //   };
+  //   checkIsInWishlist();
+  // }, [currentUser.wishlist, item]);
+
+  const handleWishlist = async () => {
+    if (isInWishlist) {
+      await removeWishlist();
+    } else {
+      await addWishlist();
+    }
   };
-  const addRemoveWhishlist = async () => {
+
+  const addWishlist = async () => {
     const res = await userRequest.post(`/product/wishlist/${userId}`, {
       item,
-      wishlisted,
     });
-    console.log(res.data);
+    setIsInWishlist(!isInWishlist);
+    dispatch(toWishlist(isInWishlist, item));
   };
-  console.log(wishlisted);
+
+  const removeWishlist = async () => {
+    const res = await userRequest.delete(`/product/wishlist/${userId}`, {
+      item,
+    });
+    setIsInWishlist(!isInWishlist);
+    dispatch(toWishlist(isInWishlist, item));
+  };
 
   return (
     <Container>
@@ -113,7 +135,7 @@ export const ProductItem = ({ item }) => {
         </Icon>
         <Icon>
           <Button onClick={handleWishlist}>
-            {wishlisted ? (
+            {isInWishlist ? (
               <Favorite style={{ color: "red" }} />
             ) : (
               <FavoriteBorderOutlined />

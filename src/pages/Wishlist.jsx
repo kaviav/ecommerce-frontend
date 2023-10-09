@@ -4,6 +4,7 @@ import { Newsletter } from "../components/Newsletter";
 import { Footer } from "../components/Footer";
 import { AddShoppingCart } from "@mui/icons-material";
 import { DeleteForever } from "@mui/icons-material";
+import { useSelector } from "react-redux";
 
 const Wrapper = styled.div`
   font-family: Arial, sans-serif;
@@ -109,6 +110,8 @@ const AddToCartButton = styled(AddShoppingCart)`
 const ImgContainer = styled.div``;
 
 export const Wishlist = () => {
+  const wishlistedItems = useSelector((state) => state.user.wishlist);
+  console.log(wishlistedItems);
   return (
     <>
       <Announcements />
