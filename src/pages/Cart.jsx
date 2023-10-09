@@ -195,7 +195,7 @@ export const Cart = () => {
       const stripe = await loadStripe(KEY);
 
       const response = await fetch(
-        "https://ecommerce-backend-j4t4.onrender.com/checkout/payment",
+        "https://ecommerce-backend-0buv.onrender.com/checkout/payment",
         {
           method: "POST",
           headers: {

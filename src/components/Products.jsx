@@ -21,8 +21,8 @@ export const Products = ({ cat, filters, sort }) => {
       try {
         const res = await axios.get(
           cat
-            ? `https://ecommerce-backend-j4t4.onrender.com/product/getall?category=${cat}`
-            : `https://ecommerce-backend-j4t4.onrender.com/product/getall`
+            ? `https://ecommerce-backend-0buv.onrender.com/product/getall?category=${cat}`
+            : `https://ecommerce-backend-0buv.onrender.com/product/getall`
         );
         console.log(res);
         setProducts(res.data);

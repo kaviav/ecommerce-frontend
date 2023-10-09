@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // const BASE_URL = "http://localhost:5000/";
-const BASE_URL = "https://ecommerce-backend-j4t4.onrender.com/";
+const BASE_URL = "https://ecommerce-backend-0buv.onrender.com/";
 
 // const token =
 //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1MTkyYTg3MDMxMzVlNDc3YjU1ODEwOSIsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE2OTY4MzIzMDgsImV4cCI6MTY5NzA5MTUwOH0.AP2KLogv6HTvr7neG-mP_DjsNU0fS7tXDajWowOHWiQ";
