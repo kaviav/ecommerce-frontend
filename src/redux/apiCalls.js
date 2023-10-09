@@ -27,3 +27,5 @@ export const signup = async (dispatch, user) => {
 //export const removeWishlist=()=>{
 
 // }
+
+//export const deleteCart=()=>{}
